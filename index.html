@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="index.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    function Text() {
+      return (
+        <div>
+          <div className="Text_Box">
+            <span className="Text">원한는 변환기를 선택해주세요</span>
+          </div>
+        </div>
+      );
+    }
+
+    //시간, 분 변환
+    function MinutesToHours() {
+      const [amount, setAmount] = React.useState();
+      const [inverted, setInverted] = React.useState(false);
+
+      const onChange = (event) => {
+        setAmount(event.target.value);
+      };
+
+      const reset = () => setAmount(0);
+
+      const onInvert = () => {
+        reset();
+        setInverted((current) => !current);
+      };
+
+      return (
+        <div>
+          <button className="button1" onClick={onInvert}>
+            {inverted ? "시간 => 분" : "분 => 시간"}
+          </button>
+
+          <div className="Box">
+            <div className="Box_1">
+              <label htmlFor="minutes">
+                <p>Minutes</p>
+              </label>
+              <input
+                className="input1"
+                value={inverted ? amount * 60 : amount}
+                id="minutes"
+                placeholder="Minutes"
+                type="number"
+                onChange={onChange}
+                disabled={inverted}
+              />
+            </div>
+
+            <div className="Box_2">
+              <label htmlFor="hours">
+                <p>Hours</p>
+              </label>
+              <input
+                className="input2"
+                value={inverted ? amount : Math.round(amount / 60)}
+                id="hours"
+                placeholder="Hours"
+                type="number"
+                onChange={onChange}
+                disabled={!inverted}
+              />
+            </div>
+          </div>
+
+          <button className="button2" onClick={reset}>
+            초기화
+          </button>
+        </div>
+      );
+    }
+
+    //Km, Miles 변환
+    function KmToMiles() {
+      const [amount2, setAmount2] = React.useState();
+      const [inverted2, setInverted2] = React.useState(false);
+
+      const onChange2 = (event) => {
+        setAmount2(event.target.value);
+      };
+
+      const reset2 = () => setAmount2(0);
+
+      const onInvert2 = () => {
+        reset2();
+        setInverted2((current2) => !current2);
+      };
+
+      return (
+        <div>
+          <button className="button1" onClick={onInvert2}>
+            {inverted2 ? "Km => Miles" : "Miles => Km"}
+          </button>
+
+          <div className="Box">
+            <div className="Box_1">
+              <label htmlFor="miles">
+                <p>Miles</p>
+              </label>
+              <input
+                className="input1"
+                value={inverted2 ? amount2 / 1.609 : amount2}
+                id="miles"
+                placeholder="Miles"
+                type="number"
+                onChange={onChange2}
+                disabled={inverted2}
+              />
+            </div>
+
+            <div className="Box_2">
+              <label htmlFor="km">
+                <p>km</p>
+              </label>
+              <input
+                className="input2"
+                value={inverted2 ? amount2 : amount2 * 1.609}
+                id="km"
+                placeholder="km"
+                type="number"
+                onChange={onChange2}
+                disabled={!inverted2}
+              />
+            </div>
+          </div>
+
+          <button className="button2" onClick={reset2}>
+            초기화
+          </button>
+        </div>
+      );
+    }
+
+    //화면에 보여주기
+    function App() {
+      const [index, setIndex] = React.useState("xx");
+      const onSelect = (event) => {
+        setIndex(event.target.value);
+      };
+      return (
+        <div>
+          <div className="box_1">
+            <h1 className="title">Convert</h1>
+            <select className="select" value={index} onChange={onSelect}>
+              <option value="xx">변환기 선택</option>
+              <option value="0">Minutes & Hours</option>
+              <option value="1">Km & Miles</option>
+            </select>
+
+            {index === "xx" ? <Text /> : null}
+            {index === "0" ? <MinutesToHours /> : null}
+            {index === "1" ? <KmToMiles /> : null}
+          </div>
+        </div>
+      );
+    }
+
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
